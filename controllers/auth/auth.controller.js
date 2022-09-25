@@ -43,14 +43,19 @@ const updateOne = async (req,res) => {
 }
 
 const readOne = async (req,res) => {
-  const user = await User.findOne({
+  await User.findOne({
     where: { id: req.params.id },
     include: [
       {
         model: Post,
         as: 'posts',
+        include: {
+          model: User,
+          as: 'author',
+        },
+        attributes: ['id', 'title', 'content', 'createdAt'],
       },
-    ],
+    ]
   })
   .then( apiResponse => res.json( { data: {
     id: apiResponse.id,
@@ -63,6 +68,7 @@ const readOne = async (req,res) => {
       occupation : apiResponse.occupation,
       avatar: apiResponse.avatar,
     },
+    posts: apiResponse.posts
   }, err: null } ))
   .catch( apiError => res.json( { data: null, err: apiError } ))
 }
