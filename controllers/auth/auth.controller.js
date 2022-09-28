@@ -7,7 +7,6 @@ const generateAccessToken = (email, id) => {
 
 const createOne = async (req,res) => {
   const { firstName, lastName, email, password } = req.body;
-  console.log(req.body)
   const existingUser = await User.findOne({
     where: { email: email }
   });

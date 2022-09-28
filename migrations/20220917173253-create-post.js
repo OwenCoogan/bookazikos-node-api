@@ -14,6 +14,9 @@ module.exports = {
       content: {
         type: Sequelize.TEXT
       },
+      richContent: {
+        type: Sequelize.JSON
+      },
       userId: {
         type: Sequelize.UUID
       },
