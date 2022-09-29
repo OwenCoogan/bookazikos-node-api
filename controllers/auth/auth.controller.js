@@ -5,6 +5,32 @@ const generateAccessToken = (email, id) => {
   );
 }
 
+const checkAccessToken = (req,res) => {
+  const token = req.body.token;
+  if(!token) return res.json({ data: null, err: 'No token provided' });
+  const decoded = jwt.verify(token, 'BookazikosCookie');
+  console.log(decoded)
+  const foundUser = User.findOne({
+    where: { email: decoded.id }
+  })
+  if(foundUser){
+    return res.json({
+      data: {
+        firstName: foundUser.firstName,
+        lastName: foundUser.lastName,
+        email: foundUser.email,
+        role: foundUser.role,
+        id : foundUser.id,
+      }
+    })
+  }
+  else{
+    return res.json({
+      errorCode: 'Not found'
+    })
+  }
+}
+
 const createOne = async (req,res) => {
   const { firstName, lastName, email, password } = req.body;
   const existingUser = await User.findOne({
@@ -104,5 +130,6 @@ module.exports = {
         updateOne,
         readAll,
         login,
-        readOne
+        readOne,
+        checkAccessToken
     }
