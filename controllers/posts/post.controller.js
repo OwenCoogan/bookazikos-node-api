@@ -1,4 +1,4 @@
-const { Post,User } = require('../../models');
+const { Post,User,Tag } = require('../../models');
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent } = req.body;
@@ -7,8 +7,16 @@ const createOne = async (req,res) => {
     title,
     content,
     userId: userId,
-    tags,
     richContent
+  })
+  .then( apiResponse => {
+    tags.forEach( async (tag) => {
+      const newTag = await Tag.create({
+        postId: apiResponse.id,
+        tagName: tag
+      })
+      console.log(newTag);
+    })
   })
   .then( apiResponse => res.json( { data: apiResponse, err: null } ))
   .catch( err => res.json( { data: null, err: err } ))
@@ -38,7 +46,11 @@ const getOne = async (req,res) => {
     content: apiResponse.content,
     richContent: JSON.parse(apiResponse.richContent),
     author: apiResponse.author,
+    tags: apiResponse.tags,
+    publicationStatus: apiResponse.publicationStatus,
   }, err: null } ))
+  .then( apiResponse=> console.log(apiResponse))
+  .catch( err => res.json( { data: null, err: err } ))
 }
 
 module.exports = {

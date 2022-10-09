@@ -15,10 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'author',
         onDelete: 'CASCADE',
       })
-      Post.hasMany(models.Tag, {
-        foreignKey: 'postId',
-        as: 'tags',
-      })
+      Post.belongsToMany(models.Tag, {
+        through: "post_tag",
+        as: "posts",
+        foreignKey: "tag_id",
+      });
     }
   }
   Post.init({
@@ -31,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.TEXT,
     richContent: DataTypes.JSON,
+    publicationStatus: DataTypes.STRING,
     userId:{
       type: DataTypes.UUID,
       allowNull: false,
