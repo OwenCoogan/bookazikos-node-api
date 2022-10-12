@@ -5,7 +5,7 @@ const checkUserToken = async (req, res, next) => {
   if(req.headers.authorization) {
     try {
       const token = req.headers.authorization.split(" ")[1];
-      const jwtUser = jwt.verify(token, 'MemoryLaneCookie');
+      const jwtUser = jwt.verify(token, 'BookazikosCookie');
       const user = await User.findByPk(jwtUser.id, {
       });
       req.auth = {

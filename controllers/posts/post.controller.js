@@ -59,6 +59,7 @@ const getOne = async (req,res) => {
     richContent: JSON.parse(apiResponse.richContent),
     author: apiResponse.author,
     publicationStatus: apiResponse.publicationStatus,
+    createdAt: apiResponse.createdAt,
   }, err: null } ))
   .catch( err => res.json( { data: null, err: err } ))
 }

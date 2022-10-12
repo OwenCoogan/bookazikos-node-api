@@ -6,13 +6,25 @@ module.exports = {
   async up (queryInterface, Sequelize) {
      await queryInterface.bulkInsert('Users', [{
         id:uuidv4(),
-        name: 'Owen Coogan',
+        firstName: 'Owen',
+        lastName: 'Coogan',
         email: 'owencoogan01@gmail.com',
-        role: 'admin',
+        role: 'superadmin',
         password: await bcrypt.hash('IamTheWalrus', 10),
         createdAt: new Date(),
         updatedAt: new Date(),
-      },], {});
+      },
+      {
+        id:uuidv4(),
+        firstName: 'Jessica',
+        lastName: 'Narvaez',
+        email: 'jnarvaezg@outlook.com',
+        role: 'admin',
+        password: await bcrypt.hash('hello', 10),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    ], {});
   },
 
   async down (queryInterface, Sequelize) {
