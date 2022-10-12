@@ -1,4 +1,4 @@
-const { Post,User } = require('../../models');
+const { Post,User,userActivity } = require('../../models');
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent } = req.body;
@@ -10,6 +10,12 @@ const createOne = async (req,res) => {
     publicationStatus: 'draft',
   })
   .then( apiResponse => res.json( { data: apiResponse, err: null } ))
+  .then( apiResponse => {
+    userActivity.create({
+      userId: userId,
+      activity: 'created_post',
+    })
+  })
   .catch( err => res.json( { data: null, err: err } ))
 }
 
