@@ -16,6 +16,9 @@ class RouterClass{
         this.router.get('/:id', (req, res) => {
             Controllers.post.getOne(req,res)
         })
+        this.router.get('/publish-post', (req, res) => {
+            Controllers.post.publishPost(req,res)
+        })
     }
 
     init(){

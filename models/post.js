@@ -15,11 +15,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'author',
         onDelete: 'CASCADE',
       })
-      Post.belongsToMany(models.Tag, {
-        through: "post_tag",
-        as: "posts",
-        foreignKey: "tag_id",
-      });
     }
   }
   Post.init({

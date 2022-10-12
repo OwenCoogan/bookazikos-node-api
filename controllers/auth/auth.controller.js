@@ -9,10 +9,10 @@ const checkAccessToken = (req,res) => {
   const token = req.body.token;
   if(!token) return res.json({ data: null, err: 'No token provided' });
   const decoded = jwt.verify(token, 'BookazikosCookie');
-  console.log(decoded)
   const foundUser = User.findOne({
     where: { email: decoded.id }
   })
+  console.log(foundUser)
   if(foundUser){
     return res.json({
       data: {
@@ -21,7 +21,8 @@ const checkAccessToken = (req,res) => {
         email: foundUser.email,
         role: foundUser.role,
         id : foundUser.id,
-      }
+      },
+      err: null
     })
   }
   else{

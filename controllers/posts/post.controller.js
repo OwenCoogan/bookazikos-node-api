@@ -1,4 +1,4 @@
-const { Post,User,Tag } = require('../../models');
+const { Post,User } = require('../../models');
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent } = req.body;
@@ -7,23 +7,24 @@ const createOne = async (req,res) => {
     title,
     content,
     userId: userId,
-    richContent
+    richContent,
+    publicationStatus: 'draft',
   })
-  .then( apiResponse => {
-    tags.forEach( async (tag) => {
-      const newTag = await Tag.create({
-        postId: apiResponse.id,
-        tagName: tag
-      })
-      console.log(newTag);
-    })
-  })
+  .then( apiResponse => res.json( { data: apiResponse, err: null } ))
+  .catch( err => res.json( { data: null, err: err } ))
+}
+
+const publishPost = async (req,res) => {
+  const { id } = req.body;
+  console.log(id);
+  await Post.update({ publicationStatus: 'published' }, { where: { id } })
   .then( apiResponse => res.json( { data: apiResponse, err: null } ))
   .catch( err => res.json( { data: null, err: err } ))
 }
 
 const getAll = async (req,res) => {
   await Post.findAll({
+    where: { publicationStatus: 'draft' },
     include: {
       model: User,
       as: 'author',
@@ -46,7 +47,6 @@ const getOne = async (req,res) => {
     content: apiResponse.content,
     richContent: JSON.parse(apiResponse.richContent),
     author: apiResponse.author,
-    tags: apiResponse.tags,
     publicationStatus: apiResponse.publicationStatus,
   }, err: null } ))
   .then( apiResponse=> console.log(apiResponse))
@@ -56,5 +56,6 @@ const getOne = async (req,res) => {
 module.exports = {
   createOne,
   getAll,
-  getOne
+  getOne,
+  publishPost
 }
