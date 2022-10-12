@@ -5,31 +5,22 @@ const generateAccessToken = (email, id) => {
   );
 }
 
-const checkAccessToken = (req,res) => {
+const checkAccessToken = async (req,res) => {
   const token = req.body.token;
   if(!token) return res.json({ data: null, err: 'No token provided' });
   const decoded = jwt.verify(token, 'BookazikosCookie');
-  const foundUser = User.findOne({
-    where: { email: decoded.id }
+  await User.findOne({
+    where: { id: decoded.id }
   })
-  console.log(foundUser)
-  if(foundUser){
-    return res.json({
-      data: {
-        firstName: foundUser.firstName,
-        lastName: foundUser.lastName,
-        email: foundUser.email,
-        role: foundUser.role,
-        id : foundUser.id,
-      },
-      err: null
-    })
-  }
-  else{
-    return res.json({
-      errorCode: 'Not found'
-    })
-  }
+  .then( apiResponse => res.json( { data: {
+    id: apiResponse.id,
+    email: apiResponse.email,
+    role: apiResponse.role,
+    firstName: apiResponse.firstName,
+    lastName: apiResponse.lastName,
+  }, err: null } ))
+  .catch( apiError => res.json( { data: null, err: apiError } ))
+
 }
 
 const createOne = async (req,res) => {

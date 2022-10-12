@@ -2,7 +2,6 @@ const { Post,User } = require('../../models');
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent } = req.body;
-  console.log(title , content, userId, tags,richContent);
   await Post.create({
     title,
     content,
@@ -17,12 +16,23 @@ const createOne = async (req,res) => {
 const publishPost = async (req,res) => {
   const { id } = req.body;
   console.log(id);
-  await Post.update({ publicationStatus: 'published' }, { where: { id } })
+  await Post.update({ publicationStatus: 'published' }, { where: { id: id } })
   .then( apiResponse => res.json( { data: apiResponse, err: null } ))
   .catch( err => res.json( { data: null, err: err } ))
 }
 
-const getAll = async (req,res) => {
+const getPublishedPosts = async (req,res) => {
+  await Post.findAll({
+    where: { publicationStatus: 'published' },
+    include: {
+      model: User,
+      as: 'author',
+      attributes: ['id', 'firstName', 'lastName'],
+    },
+  }).then( apiResponse => res.json( { data: apiResponse, err: null } ))
+}
+
+const getDrafts = async (req,res) => {
   await Post.findAll({
     where: { publicationStatus: 'draft' },
     include: {
@@ -32,6 +42,7 @@ const getAll = async (req,res) => {
     },
   }).then( apiResponse => res.json( { data: apiResponse, err: null } ))
 }
+
 const getOne = async (req,res) => {
   const { id } = req.params;
   await Post.findOne({
@@ -49,13 +60,13 @@ const getOne = async (req,res) => {
     author: apiResponse.author,
     publicationStatus: apiResponse.publicationStatus,
   }, err: null } ))
-  .then( apiResponse=> console.log(apiResponse))
   .catch( err => res.json( { data: null, err: err } ))
 }
 
 module.exports = {
   createOne,
-  getAll,
+  getDrafts,
   getOne,
-  publishPost
+  publishPost,
+  getPublishedPosts
 }

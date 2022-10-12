@@ -20,7 +20,6 @@ class RouterClass{
             Controllers.auth.login(req,res)
         })
         this.router.post('/check-user-token', (req, res) => {
-            console.log(req.body)
             Controllers.auth.checkAccessToken(req,res)
         })
     }
