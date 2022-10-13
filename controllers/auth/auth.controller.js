@@ -51,9 +51,18 @@ const readAll = async (req,res) => {
 }
 
 const updateOne = async (req,res) => {
-  await User.update(
-    { name: req.body.name },
-    { where: { id: req.body.id } }
+  await User.update({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    role: req.body.role,
+    email: req.body.email,
+    role: req.body.role,
+    description: req.body.description,
+    occupation: req.body.occupation,
+  },
+  {
+    where: { id: req.params.id }
+  }
   )
   .then( apiResponse => res.json( { data: apiResponse, err: null } ))
   .catch( apiError => res.json( { data: null, err: apiError } ))

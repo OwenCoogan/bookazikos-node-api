@@ -22,6 +22,9 @@ class RouterClass{
         this.router.post('/check-user-token', (req, res) => {
             Controllers.auth.checkAccessToken(req,res)
         })
+        this.router.post('/edit-user/:id', (req, res) => {
+            Controllers.auth.updateOne(req,res)
+        })
     }
 
     init(){

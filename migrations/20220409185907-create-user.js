@@ -17,6 +17,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      occupation: {
+        type: Sequelize.STRING
+      },
       role: {
         type: Sequelize.STRING
       },
