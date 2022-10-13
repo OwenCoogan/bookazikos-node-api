@@ -22,6 +22,9 @@ class ServerClass{
       const PostRouterClass = require('./routes/post.router');
       const postRouter = new PostRouterClass();
 
+      const TeamRouterClass = require('./routes/team.router');
+      const teamRouter = new TeamRouterClass();
+
 
       this.server.use( (req, res, next) => {
           const allowedOrigins = process.env.ALLOWED_ORIGINS.split(', ');
@@ -40,6 +43,7 @@ class ServerClass{
       this.server.use(cookieParser(process.env.COOKIE_SECRET));
       this.server.use('/auth', authRouter.init());
       this.server.use('/posts', postRouter.init());
+      this.server.use('/team', teamRouter.init());
 
       this.config();
     }
