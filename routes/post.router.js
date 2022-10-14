@@ -22,6 +22,9 @@ class RouterClass{
         this.router.post('/publish-post', (req, res) => {
             Controllers.post.publishPost(req,res)
         })
+        this.router.post('/:id/comment/add', (req, res) => {
+            Controllers.comment.createOne(req,res)
+        })
     }
 
     init(){

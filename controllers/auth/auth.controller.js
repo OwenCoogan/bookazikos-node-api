@@ -1,4 +1,4 @@
-const { User,Post } = require('../../models');
+const { User,Post,Comment } = require('../../models');
 const jwt = require('jsonwebtoken');
 const generateAccessToken = (email, id) => {
   return jwt.sign({ email ,id }, 'BookazikosCookie', { expiresIn: '100000000000s' }
@@ -81,6 +81,11 @@ const readOne = async (req,res) => {
         },
         attributes: ['id', 'title', 'content', 'createdAt'],
       },
+      {
+        model: Comment,
+        as: 'comments',
+        attributes: ['id', 'content', 'createdAt'],
+      }
     ]
   })
   .then( apiResponse => res.json( { data: {
@@ -94,7 +99,8 @@ const readOne = async (req,res) => {
       occupation : apiResponse.occupation,
       avatar: apiResponse.avatar,
     },
-    posts: apiResponse.posts
+    posts: apiResponse.posts,
+    comments: apiResponse.comments,
   }, err: null } ))
   .catch( apiError => res.json( { data: null, err: apiError } ))
 }
