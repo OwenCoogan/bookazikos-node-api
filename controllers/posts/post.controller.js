@@ -1,4 +1,4 @@
-const { Post,User,userActivity,Comment } = require('../../models');
+const { Post,User,userActivity,Comment,Tag,PostTag } = require('../../models');
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent } = req.body;
@@ -9,12 +9,22 @@ const createOne = async (req,res) => {
     richContent,
     publicationStatus: 'draft',
   })
-  .then( apiResponse => res.json( { data: apiResponse, err: null } ))
   .then( apiResponse => {
-    userActivity.create({
-      userId: userId,
-      activity: 'created_post',
+    tags.forEach( async (tag) => {
+      Tag.create({
+        name: tag,
+        postId: apiResponse.id,
+      })
+      .then( response =>{
+        PostTag.create({
+          postId: apiResponse.id,
+          tagId: response.id,
+        })
+      }
+
+      )
     })
+    return res.json( { data: apiResponse, err: null } )
   })
   .catch( err => res.json( { data: null, err: err } ))
 }
@@ -67,6 +77,11 @@ const getOne = async (req,res) => {
         as: 'author',
         attributes: ['id', 'firstName', 'lastName'],
       }
+    },
+    {
+      model: Tag,
+      as: 'tags',
+      attributes: ['id', 'name'],
     }
 
   ],
@@ -78,6 +93,7 @@ const getOne = async (req,res) => {
     author: apiResponse.author,
     comments: apiResponse.comments,
     publicationStatus: apiResponse.publicationStatus,
+    tags: apiResponse.tags,
     createdAt: apiResponse.createdAt,
   }, err: null } ))
   .catch( err => res.json( { data: null, err: err } ))

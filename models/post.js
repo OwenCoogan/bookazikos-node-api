@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'comments',
         onDelete: 'CASCADE',
       });
+      Post.belongsToMany(models.Tag,{
+        foreignKey: 'postId',
+        through: 'PostTags',
+        as: 'tags'
+      })
     }
   }
   Post.init({
