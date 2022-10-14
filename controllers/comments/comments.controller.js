@@ -1,10 +1,11 @@
 const { Comment } = require('../../models');
 
 const createOne = async (req, res) => {
-  const { comment, userId,postId } = req.body;
+  const { content, userId,postId } = req.body;
+  console.log(content);
 
   const newComment = await Comment.create({
-    content: comment,
+    content: content,
     userId: userId,
     postId: postId
   });
