@@ -1,4 +1,4 @@
-const { Post,User,userActivity } = require('../../models');
+const { Post,User,userActivity,Comment } = require('../../models');
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent } = req.body;
@@ -53,17 +53,30 @@ const getOne = async (req,res) => {
   const { id } = req.params;
   await Post.findOne({
     where: { id },
-    include: {
+    include: [{
       model: User,
       as: 'author',
       attributes: ['id', 'firstName', 'lastName'],
     },
+    {
+      model: Comment,
+      as: 'comments',
+      attributes: ['id', 'content', 'createdAt'],
+      include: {
+        model: User,
+        as: 'author',
+        attributes: ['id', 'firstName', 'lastName'],
+      }
+    }
+
+  ],
   }).then( apiResponse => res.json( { data: {
     id: apiResponse.id,
     title: apiResponse.title,
     content: apiResponse.content,
     richContent: JSON.parse(apiResponse.richContent),
     author: apiResponse.author,
+    comments: apiResponse.comments,
     publicationStatus: apiResponse.publicationStatus,
     createdAt: apiResponse.createdAt,
   }, err: null } ))

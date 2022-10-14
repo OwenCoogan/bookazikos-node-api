@@ -31,6 +31,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+    postId:{
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Post',
+        key: 'id'
+      }
+    },
     content: DataTypes.STRING
   }, {
     sequelize,
