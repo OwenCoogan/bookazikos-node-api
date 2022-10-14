@@ -20,9 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'comments',
         onDelete: 'CASCADE',
       });
-      Post.belongsToMany(models.Tag, {
-        through: 'PostTags',
-      })
     }
   }
   Post.init({
