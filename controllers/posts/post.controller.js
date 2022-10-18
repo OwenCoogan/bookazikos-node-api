@@ -1,5 +1,30 @@
 const { Post,User,userActivity,Comment,Tag,PostTag } = require('../../models');
 
+const AddPostPicture = async (req, res) => {
+  try {
+    if (req.file == undefined) {
+      return res.json(`You must select a file.`);
+    }
+    Image.create({
+      type: req.file.mimetype,
+      imageType: 'post',
+      imageId: req.params.id,
+      name: req.file.filename,
+      data: fs.readFileSync(
+        __basedir + `/resources/static/assets/uploads/post/${req.file.filename}`
+      ),
+    }).then((image) => {
+      fs.writeFileSync(
+        __basedir + `/resources/static/assets/tmp/post/${req.file.filename}`,
+        image.data
+      );
+      return res.json(`File has been uploaded (${req.file.filename})`);
+    });
+  } catch (error) {
+    return res.json(`Error when trying upload images: ${error}`);
+  }
+}
+
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent } = req.body;
   await Post.create({
@@ -104,5 +129,6 @@ module.exports = {
   getDrafts,
   getOne,
   publishPost,
-  getPublishedPosts
+  getPublishedPosts,
+  AddPostPicture
 }

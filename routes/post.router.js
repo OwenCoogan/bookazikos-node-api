@@ -1,5 +1,6 @@
 const express = require('express');
 const Controllers = require('../controllers/index');
+const upload = require("../middleware/upload.middleware");
 
 class RouterClass{
     constructor(){
@@ -25,6 +26,8 @@ class RouterClass{
         this.router.post('/:id/comment/add', (req, res) => {
             Controllers.comment.createOne(req,res)
         })
+        this.router.post("/:id/image/add", upload.single("file"), Controllers.post.AddPostPicture);
+
     }
 
     init(){

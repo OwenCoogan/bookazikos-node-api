@@ -1,5 +1,6 @@
 const express = require('express');
 const Controllers = require('../controllers/index');
+const upload = require("../middleware/upload.middleware");
 
 class RouterClass{
     constructor(){
@@ -25,6 +26,7 @@ class RouterClass{
         this.router.post('/edit-user/:id', (req, res) => {
             Controllers.auth.updateOne(req,res)
         })
+        this.router.post("/user/:id/profile/picture", upload.single("file"), Controllers.userActions.uploadProfilePicture);
     }
 
     init(){
