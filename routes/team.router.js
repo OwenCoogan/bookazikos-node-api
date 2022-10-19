@@ -10,6 +10,9 @@ class RouterClass{
         this.router.get('/get-users/', (req, res) => {
             Controllers.team.getAll(req,res)
         })
+        this.router.get('/get-data/', (req, res) => {
+            Controllers.data.getAdminData(req,res)
+        })
     }
 
     init(){

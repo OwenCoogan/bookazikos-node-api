@@ -12,7 +12,6 @@ const createOne = async (req, res) => {
 
   res.status(201).json(newComment);
 };
-
 module.exports = {
-  createOne
+  createOne,
 };

@@ -1,4 +1,4 @@
-const { Post,User,userActivity,Comment,Tag,PostTag } = require('../../models');
+const { Post,User,userActivity,Comment,Tag,PostTag,Image } = require('../../models');
 
 const AddPostPicture = async (req, res) => {
   try {
@@ -26,7 +26,8 @@ const AddPostPicture = async (req, res) => {
 }
 
 const createOne = async (req,res) => {
-  const { title, content, userId , tags , richContent } = req.body;
+  const { title, content, userId , tags , richContent,image } = req.body;
+  console.log(req.body);
   await Post.create({
     title,
     content,
@@ -46,9 +47,17 @@ const createOne = async (req,res) => {
           tagId: response.id,
         })
       }
-
-      )
+    )
     })
+    if(image) {
+      console.log(image);
+      Image.create({
+        type: BLOB('long'),
+        imageType: 'post',
+        imageId: apiResponse.id,
+        name: image,
+      })
+    }
     return res.json( { data: apiResponse, err: null } )
   })
   .catch( err => res.json( { data: null, err: err } ))
@@ -107,7 +116,12 @@ const getOne = async (req,res) => {
       model: Tag,
       as: 'tags',
       attributes: ['id', 'name'],
-    }
+    },
+    {
+      model: Image,
+      as: 'images',
+      attributes : ['name']
+    },
 
   ],
   }).then( apiResponse => res.json( { data: {
