@@ -117,11 +117,6 @@ const getOne = async (req,res) => {
       as: 'tags',
       attributes: ['id', 'name'],
     },
-    {
-      model: Image,
-      as: 'images',
-      attributes : ['name']
-    },
 
   ],
   }).then( apiResponse => res.json( { data: {
