@@ -37,6 +37,12 @@ const createOne = async (req,res) => {
   })
   .then( apiResponse => {
     tags.forEach( async (tag) => {
+      await Tag.findOrCreate({
+        name:tag,
+        postId: apiResponse.id,
+        where: { name: tag },
+
+      })
       Tag.create({
         name: tag,
         postId: apiResponse.id,
@@ -51,12 +57,6 @@ const createOne = async (req,res) => {
     })
     if(image) {
       console.log(image);
-      Image.create({
-        type: BLOB('long'),
-        imageType: 'post',
-        imageId: apiResponse.id,
-        name: image,
-      })
     }
     return res.json( { data: apiResponse, err: null } )
   })
