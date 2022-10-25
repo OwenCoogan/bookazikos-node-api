@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: bookazikos_development
+      POSTGRES_DB: bookazikos_production
     ports:
       - "5432:5432"
 
@@ -26,17 +26,3 @@ services:
     - /usr/src/app/node_modules
     ports:
       - "6950:6950"
-
-  pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
