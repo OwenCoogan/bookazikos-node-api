@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: bookazikos_production
+      POSTGRES_DB: bookazikos_development
     ports:
       - "5432:5432"
 
