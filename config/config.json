@@ -17,7 +17,7 @@
     "username": "admin",
     "password": "postgres",
     "database": "bookazikos_production",
-    "host": "0.0.0.0",
+    "host": "db",
     "dialect": "postgres"
   }
 }
