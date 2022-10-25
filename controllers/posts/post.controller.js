@@ -1,24 +1,26 @@
 const { Post,User,userActivity,Comment,Tag,PostTag,Image } = require('../../models');
 
-const AddPostPicture = async (req, res) => {
+const AddPostPicture = async (image,id) => {
+  console.log(image)
   try {
     if (req.file == undefined) {
       return res.json(`You must select a file.`);
     }
     Image.create({
-      type: req.file.mimetype,
+      type: image.mimetype,
       imageType: 'post',
-      imageId: req.params.id,
-      name: req.file.filename,
+      imageId: id,
+      name: image.filename,
       data: fs.readFileSync(
-        __basedir + `/resources/static/assets/uploads/post/${req.file.filename}`
+        __basedir + `/resources/static/assets/uploads/post/${image.filename}`
       ),
     }).then((image) => {
       fs.writeFileSync(
-        __basedir + `/resources/static/assets/tmp/post/${req.file.filename}`,
+        __basedir + `/resources/static/assets/tmp/post/${image.filename}`,
         image.data
       );
-      return res.json(`File has been uploaded (${req.file.filename})`);
+      console.log(image.data);
+      return res.json(`File has been uploaded (${image.filename})`);
     });
   } catch (error) {
     return res.json(`Error when trying upload images: ${error}`);
@@ -52,6 +54,7 @@ const createOne = async (req,res) => {
           postId: apiResponse.id,
           tagId: response.id,
         })
+        AddPostPicture(image,apiResponse.id)
       }
     )
     })
@@ -74,11 +77,12 @@ const publishPost = async (req,res) => {
 const getPublishedPosts = async (req,res) => {
   await Post.findAll({
     where: { publicationStatus: 'published' },
-    include: {
+    include: [{
       model: User,
       as: 'author',
       attributes: ['id', 'firstName', 'lastName'],
     },
+  ],
   }).then( apiResponse => res.json( { data: apiResponse, err: null } ))
 }
 
