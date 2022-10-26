@@ -1,12 +1,13 @@
 const { Post,User,userActivity,Comment,Tag,PostTag,Image } = require('../../models');
 
-const AddPostPicture = async (image,id) => {
+const AddPostPicture = async (req,res) => {
+  const { image } = req.body;
   console.log(image)
   try {
     if (req.file == undefined) {
       return res.json(`You must select a file.`);
     }
-    Image.create({
+    const image = Image.create({
       type: image.mimetype,
       imageType: 'post',
       imageId: id,
@@ -19,7 +20,7 @@ const AddPostPicture = async (image,id) => {
         __basedir + `/resources/static/assets/tmp/post/${image.filename}`,
         image.data
       );
-      console.log(image.data);
+      console.log(image);
       return res.json(`File has been uploaded (${image.filename})`);
     });
   } catch (error) {
@@ -29,7 +30,6 @@ const AddPostPicture = async (image,id) => {
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent,image } = req.body;
-  console.log(req.body);
   await Post.create({
     title,
     content,
@@ -54,9 +54,9 @@ const createOne = async (req,res) => {
           postId: apiResponse.id,
           tagId: response.id,
         })
-        AddPostPicture(image,apiResponse.id)
       }
     )
+    .catch( err => res.json( { data: null, err: err } ))
     })
     if(image) {
       console.log(image);

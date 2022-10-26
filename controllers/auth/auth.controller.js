@@ -40,7 +40,9 @@ const createOne = async (req,res) => {
     .catch( err => res.json( { data: null, err: err } ))
   }
   else{
-    return res.status(400)
+    return res.json({
+      errorCode: 'User already exists'
+    });
   }
 }
 
