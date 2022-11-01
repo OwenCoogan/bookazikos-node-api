@@ -1,4 +1,4 @@
 npx sequelize db:create --env production
 npx sequelize db:migrate --env production
 npx sequelize db:seed:all --env production
-nodemon server.js
+node server.js
