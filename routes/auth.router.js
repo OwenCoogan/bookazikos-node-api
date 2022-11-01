@@ -26,6 +26,9 @@ class RouterClass{
         this.router.post('/edit-user/:id', (req, res) => {
             Controllers.auth.updateOne(req,res)
         })
+        this.router.post('/user/:id/profile/picture', (req, res) => {
+            upload.single("file"), Controllers.auth.uploadProfilePicture(req,res);
+        })
     }
 
     init(){
