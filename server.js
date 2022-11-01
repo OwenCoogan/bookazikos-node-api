@@ -45,6 +45,7 @@ class ServerClass{
       this.server.use('/posts', postRouter.init());
       this.server.use('/team', teamRouter.init());
 
+
       this.config();
     }
     config(){
