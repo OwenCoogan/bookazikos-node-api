@@ -30,6 +30,7 @@ const AddPostPicture = async (req,res) => {
 
 const createOne = async (req,res) => {
   const { title, content, userId , tags , richContent,image } = req.body;
+  console.log(req.body)
   await Post.create({
     title,
     content,
@@ -59,7 +60,20 @@ const createOne = async (req,res) => {
     .catch( err => res.json( { data: null, err: err } ))
     })
     if(image) {
-      console.log(image);
+      Image.create({
+        type: image.mimetype,
+        imageType: 'post',
+        imageId: apiResponse.id,
+        name: image.filename,
+        data: fs.readFileSync(
+          __basedir + `/resources/static/assets/uploads/post/${image.filename}`
+        ),
+      }).then((image) => {
+        fs.writeFileSync(
+          __basedir + `/resources/static/assets/tmp/post/${image.filename}`,
+          image.data
+        );
+        })
     }
     return res.json( { data: apiResponse, err: null } )
   })
