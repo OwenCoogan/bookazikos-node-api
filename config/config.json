@@ -16,7 +16,7 @@
   "production": {
     "username": "admin",
     "password": "postgres",
-    "database": "memorylane_production",
+    "database": "bookazikos_production",
     "host": "0.0.0.0",
     "dialect": "postgres"
   }
