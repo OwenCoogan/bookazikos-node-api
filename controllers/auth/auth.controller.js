@@ -1,5 +1,9 @@
 const { User,Post,Comment } = require('../../models');
 const jwt = require('jsonwebtoken');
+const { AdminInvitation } = require('../../config/email-transporter/email-templates/AdminInvitation');
+const { transporter } = require('../../config/email-transporter/email-transporter');
+const { nodemailer } = require('nodemailer');
+
 const generateAccessToken = (email, id) => {
   return jwt.sign({ email ,id }, 'BookazikosCookie', { expiresIn: '100000000000s' }
   );
@@ -43,6 +47,24 @@ const createOne = async (req,res) => {
     return res.json({
       errorCode: 'User already exists'
     });
+  }
+}
+
+const sendAdminInvitationEmail = async (req,res) => {
+  console.log(req.body)
+  const existingUser = await User.findOne({
+    where: { email: req.body.email }
+  });
+  console.log(existingUser)
+  if(!existingUser){
+    await transporter.sendMail(AdminInvitation(req.body.email), (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(info);
+      }
+    });
+
   }
 }
 
@@ -167,5 +189,6 @@ module.exports = {
         login,
         readOne,
         checkAccessToken,
-        uploadProfilePicture
+        uploadProfilePicture,
+        sendAdminInvitationEmail
     }

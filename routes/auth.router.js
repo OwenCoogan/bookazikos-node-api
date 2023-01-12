@@ -29,6 +29,9 @@ class RouterClass{
         this.router.post('/user/:id/profile/picture', (req, res) => {
             upload.single("file"), Controllers.auth.uploadProfilePicture(req,res);
         })
+        this.router.post('/send-admin-invitation', (req, res) => {
+            Controllers.auth.sendAdminInvitationEmail(req,res)
+        })
     }
 
     init(){
