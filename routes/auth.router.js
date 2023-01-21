@@ -30,7 +30,10 @@ class RouterClass{
             upload.single("file"), Controllers.auth.uploadProfilePicture(req,res);
         })
         this.router.post('/send-admin-invitation', (req, res) => {
-            Controllers.auth.sendAdminInvitationEmail(req,res)
+            Controllers.adminInvitations.createAdminInvitation(req,res)
+        })
+        this.router.post('/validate-admin-invitation', (req, res) => {
+            Controllers.adminInvitations.validateAdminInvitation(req,res)
         })
     }
 

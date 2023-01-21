@@ -50,24 +50,6 @@ const createOne = async (req,res) => {
   }
 }
 
-const sendAdminInvitationEmail = async (req,res) => {
-  console.log(req.body)
-  const existingUser = await User.findOne({
-    where: { email: req.body.email }
-  });
-  console.log(existingUser)
-  if(!existingUser){
-    await transporter.sendMail(AdminInvitation(req.body.email), (err, info) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(info);
-      }
-    });
-
-  }
-}
-
 const readAll = async (req,res) => {
     await User.findAll({})
     .then( apiResponse => res.json( { data: apiResponse, err: null } ))
@@ -190,5 +172,4 @@ module.exports = {
         readOne,
         checkAccessToken,
         uploadProfilePicture,
-        sendAdminInvitationEmail
     }
