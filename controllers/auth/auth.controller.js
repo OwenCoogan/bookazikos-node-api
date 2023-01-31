@@ -5,14 +5,14 @@ const { transporter } = require('../../config/email-transporter/email-transport
 const { nodemailer } = require('nodemailer');
 
 const generateAccessToken = (email, id) => {
-  return jwt.sign({ email ,id }, 'BookazikosCookie', { expiresIn: '100000000000s' }
+  return jwt.sign({ email ,id }, process.env.COOKIENAME, { expiresIn: '100000000000s' }
   );
 }
 
 const checkAccessToken = async (req,res) => {
   const token = req.body.token;
   if(!token) return res.json({ data: null, err: 'No token provided' });
-  const decoded = jwt.verify(token, 'BookazikosCookie');
+  const decoded = jwt.verify(token, process.env.COOKIENAME);
   await User.findOne({
     where: { id: decoded.id }
   })
