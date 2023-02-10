@@ -14,6 +14,16 @@ module.exports = {
         password: await bcrypt.hash('hello', 10),
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        id:uuidv4(),
+        firstName: 'Owen',
+        lastName: 'Coogan',
+        email: 'owencoogan01@gmail.com',
+        role: 'admin',
+        password: await bcrypt.hash('hello', 10),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ], {});
   },
