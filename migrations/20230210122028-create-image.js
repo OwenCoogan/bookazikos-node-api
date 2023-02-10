@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      image:{
+      imageData:{
         type: Sequelize.BLOB
 
       },

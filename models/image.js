@@ -18,8 +18,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Image.init({
-    id: DataTypes.UUID,
-    image: DataTypes.BLOB
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      allowNull: false
+    },
+    imageData: DataTypes.BLOB
   }, {
     sequelize,
     modelName: 'Image',

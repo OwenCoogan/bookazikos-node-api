@@ -61,14 +61,12 @@ const createOne = async (req,res) => {
     })
     if(image) {
       Image.create({
-        type: image.mimetype,
-        imageType: 'post',
-        imageId: apiResponse.id,
-        name: image.filename,
-        data: fs.readFileSync(
+        postId: apiResponse.id,
+        image: fs.readFileSync(
           __basedir + `/resources/static/assets/uploads/post/${image.filename}`
         ),
-      }).then((image) => {
+      }).then((res) => {
+        console.log(res)
         fs.writeFileSync(
           __basedir + `/resources/static/assets/tmp/post/${image.filename}`,
           image.data

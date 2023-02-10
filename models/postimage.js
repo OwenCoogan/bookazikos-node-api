@@ -14,7 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PostImage.init({
-    id: DataTypes.UUID,
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      allowNull: false
+    },
     postId: DataTypes.UUID,
     imageId: DataTypes.UUID
   }, {
