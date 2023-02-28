@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm install bcrypt
 
+RUN npm install nodemailer
+
 RUN npm install
 
 EXPOSE 6950
