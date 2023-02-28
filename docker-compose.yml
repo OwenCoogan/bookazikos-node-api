@@ -6,17 +6,20 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: bookazikos_development
     ports:
       - "5432:5432"
+    networks:
+      - app-network
 
   bookazikos-node-js:
     image: bookazikos-node-js:latest
     entrypoint: ["/bin/bash", "./entrypoint.sh"]
+    restart: unless-stopped
     build:
       dockerfile
     depends_on:
@@ -26,3 +29,9 @@ services:
     - /usr/src/app/node_modules
     ports:
       - "6950:6950"
+    networks:
+      - app-network
+
+networks:
+app-network:
+  driver: bridge
