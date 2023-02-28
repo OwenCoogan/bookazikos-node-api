@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install bcrypt
 
-RUN npm install nodemailer
+RUN npm install nodemailer --save
 
 RUN npm install
 
