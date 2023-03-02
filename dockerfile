@@ -14,6 +14,6 @@ COPY --chown=node:node . .
 
 EXPOSE 6950
 
-ENTRYPOINT sudo [ "./entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
 
 CMD [ "nodemon", "server.js" ]
