@@ -19,4 +19,4 @@ services:
         - db
     ports:
         - "3000:3000"
-    command: ["./wait-for-it.sh", "db:5432", "--", "node", "server.js"]
+    command: ["db:5432", "--", "node", "server.js"]
