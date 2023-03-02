@@ -14,4 +14,6 @@ COPY --chown=node:node . .
 
 EXPOSE 6950
 
-CMD [ "nodem", "app.js" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
+
+CMD [ "nodemon", "server.js" ]

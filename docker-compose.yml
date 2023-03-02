@@ -14,7 +14,7 @@ services:
     ports:
       - "5432:5432"
   bookazikos-node-js:
-    build: bookazikos-node-js
+    image: bookazikos-node-js
     depends_on:
         - db
     ports:
