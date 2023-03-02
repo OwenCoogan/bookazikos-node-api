@@ -1,16 +1,17 @@
-FROM node:10
+FROM node:10-alpine
 
-WORKDIR /usr/src/app
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-COPY . .
+WORKDIR /home/node/app
 
-RUN npm install bcrypt
+COPY package*.json ./
 
-RUN npm install nodemailer --save
+USER node
 
 RUN npm install
 
+COPY --chown=node:node . .
+
 EXPOSE 6950
 
-
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "nodem", "app.js" ]
