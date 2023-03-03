@@ -25,8 +25,8 @@
     "build-db-prod": "docker compose docker-compose-prod.yml up",
     "run-prod": "docker build -t bookazikos-node-js . && docker compose docker-compose-prod.yml up && sequelize db:migrate && sequelize db:seed:all",
     "build-image": "docker build -t bookazikos-node-js .",
-    "prep-db": "sequelize db:migrate && sequelize db:seed:all",
-    "prep-db-prod": "sequelize db:migrate --env production && sequelize db:seed:all",
+    "prep-db": "sequelize db:migrate && sequelize db:seed:all ",
+    "prep-db-prod": "sequelize db:migrate --env production && sequelize db:seed:all --env production && node server.js",
     "db:makemigrations": "./node_modules/sequelize-auto-migrations/bin/makemigration.js"
   },
   "author": "",

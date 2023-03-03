@@ -2,15 +2,15 @@
   "development": {
     "username": "admin",
     "password": "postgres",
-    "database": "bookazikos_development",
-    "host": "0.0.0.0",
+    "database": "bookazikos_production",
+    "host": "db",
     "dialect": "postgres"
   },
   "test": {
     "username": "admin",
     "password": "postgres",
     "database": "bookazikos_test",
-    "host": "0.0.0.0",
+    "host": "db",
     "dialect": "postgres"
   },
   "production": {

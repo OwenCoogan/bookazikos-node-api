@@ -1,22 +1,37 @@
+version: '1.0.0'
+volumes:
+
 services:
+
   db:
     container_name: pg_container
     image: postgres
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    restart: unless-stopped
+
+    ports:
+      - "5432:5432"
+
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: bookazikos_development
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: bookazikos_production
+
+    restart: unless-stopped
+    volumes:
+        - node_data:/var/lib/postgresql/data
+
   bookazikos-node-js:
     image: bookazikos-node-js
+    environment:
+      PG_USER: admin
+      PG_PASSWORD: postgres
+      PG_HOST: db
     depends_on:
         - db
     ports:
-        - "3000:3000"
-    command: ["db:5432", "--", "node", "server.js"]
+        - "6950:6950"
+    volumes:
+          - node_data:/var/lib/postgresql/data
+    command: [ "npm","run","prep-db-prod"]
+
+volumes:
+        node_data: {}
