@@ -9,7 +9,7 @@ volumes:
           driver_opts:
             type: none
             o: bind
-            device: "node_data"
+            device: "var/www/html"
 
 
 services:
@@ -19,14 +19,10 @@ services:
     image: certbot/certbot:latest
     depends_on:
       - webserver
-    command: >-
-             certonly --reinstall --webroot -w /var/www/html
-             --email owencoogan01@gmail.com --agree-tos --no-eff-email
-             -d www.crece-en-libertad.owensapi.com
     volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
+    - ./certbot/conf:/etc/letsencrypt
+    - ./certbot/www:/var/www/html
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email owencoogan01@gmail.com -d crece-en-libertad.owensapi.com --agree-tos
   db:
     container_name: pg_container
     image: postgres
