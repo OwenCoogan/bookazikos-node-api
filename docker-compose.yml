@@ -1,7 +1,28 @@
 version: '1.0.0'
+
 volumes:
+        node_data: {}
+        certbot-etc:
+        certbot-var:
+        web-root:
+          driver: local
+          driver_opts:
+            type: none
+            o: bind
+
 
 services:
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email owencoogan01@gmail.com --agree-tos --no-eff-email --staging -d crece-en-libertad.owensapi.com  -d www.crece-en-libertad.owensapi.com
 
   db:
     container_name: pg_container
@@ -19,6 +40,22 @@ services:
     volumes:
         - node_data:/var/lib/postgresql/data
 
+
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - node_data:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - bookazikos-node-js
+
+
   bookazikos-node-js:
     image: bookazikos-node-js
     environment:
@@ -33,5 +70,4 @@ services:
           - node_data:/var/lib/postgresql/data
     command: [ "npm","run","prep-db-prod"]
 
-volumes:
-        node_data: {}
+
