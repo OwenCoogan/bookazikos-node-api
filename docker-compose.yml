@@ -9,7 +9,7 @@ volumes:
           driver_opts:
             type: none
             o: bind
-            device: ""
+            device: "home/app/views"
 
 
 services:
