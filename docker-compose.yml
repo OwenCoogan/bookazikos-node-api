@@ -15,16 +15,18 @@ volumes:
 services:
 
   certbot:
-    image: certbot/certbot
     container_name: certbot
+    image: certbot/certbot:latest
+    depends_on:
+      - webserver
+    command: >-
+             certonly --reinstall --webroot -w /var/www/html
+             --email owencoogan01@gmail.com --agree-tos --no-eff-email
+             -d www.crece-en-libertad.owensapi.com
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
       - web-root:/var/www/html
-    depends_on:
-      - webserver
-    command: certonly --webroot --webroot-path=/var/www/html --email owencoogan01@gmail.com --agree-tos --no-eff-email --staging -d crece-en-libertad.owensapi.com  -d www.crece-en-libertad.owensapi.com
-
   db:
     container_name: pg_container
     image: postgres
