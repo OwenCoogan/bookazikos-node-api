@@ -39,7 +39,7 @@ services:
       - node_data:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
       - ./certbot/conf/:/etc/letsencrypt/:rw
-      - ./certbot/www:/var/www/certbot
+      - ./certbot/www:/var/www/certbot/:rw
 
     depends_on:
       - bookazikos-node-js
