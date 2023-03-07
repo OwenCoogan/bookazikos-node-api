@@ -29,9 +29,7 @@ const Users = [{
 module.exports = {
 
   async up (queryInterface, Sequelize) {
-     await queryInterface.bulkInsert('Users',
-        Users
-      )
+    await queryInterface.bulkInsert('Users', Users, {});
   },
 
   async down (queryInterface, Sequelize) {
