@@ -21,8 +21,8 @@
   "scripts": {
     "test": "test",
     "start": "nodemon server.js",
-    "certbot-dryrun": "docker compose run --rm  certbot certonly --dry-run --webroot --webroot-path /var/www/certbot/ -d crece-en-libertad.owensapi.com -d www.crece-en-libertad.owensapi.com",
-    "certbot": "docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d crece-en-libertad.owensapi.com -d www.crece-en-libertad.owensapi.com --agree-tos --email owencoogan01@live.fr",
+    "certbot-dryrun": "docker compose run --rm  certbot certonly --dry-run --webroot --webroot-path /var/www/certbot/ -d crece-en-libertad.owensapi.com",
+    "certbot": "docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d crece-en-libertad.owensapi.com --agree-tos --email owencoogan01@live.fr",
     "build-db-dev": "docker compose up",
     "build-db-prod": "docker compose docker-compose-prod.yml up",
     "run-prod": "docker build -t bookazikos-node-js . && docker compose docker-compose-prod.yml up && sequelize db:migrate && sequelize db:seed:all",
