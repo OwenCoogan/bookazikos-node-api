@@ -35,6 +35,7 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - node_data:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
