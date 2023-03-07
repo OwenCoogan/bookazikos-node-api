@@ -5,14 +5,6 @@ volumes:
 
 
 services:
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./nginx-conf:/etc/nginx/conf.d
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --email owencoogan01@live.fr -d crece-en-libertad.owensapi.com --agree-tos --no-eff-email
   db:
     container_name: pg_container
     image: postgres

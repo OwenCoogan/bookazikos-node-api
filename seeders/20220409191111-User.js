@@ -29,16 +29,9 @@ const Users = [{
 module.exports = {
 
   async up (queryInterface, Sequelize) {
-     await queryInterface.bulkInsert('Users', [
-        Users.forEach(user => {
-          User.findOne({ where: { email: user.email } })
-            .then((user) => {
-              if (!user) {
-                User.create(user);
-              }
-            })
-        })
-      ])
+     await queryInterface.bulkInsert('Users',
+        Users
+      )
   },
 
   async down (queryInterface, Sequelize) {
