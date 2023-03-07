@@ -10,8 +10,8 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - ./nginx-conf:/etc/nginx/conf.d
+      - ./certbot/www:/var/www/certbot
   db:
     container_name: pg_container
     image: postgres
@@ -37,9 +37,9 @@ services:
       - "80:80"
     volumes:
       - node_data:/var/www/html
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      - ./nginx-conf:/etc/nginx/conf.d
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - ./certbot/www:/var/www/certbot
 
     depends_on:
       - bookazikos-node-js
